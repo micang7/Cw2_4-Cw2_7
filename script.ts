@@ -1,39 +1,63 @@
+interface Post {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+}
+
+interface MojPost {
+  id: number;
+  title: string;
+}
+
+interface Comment {
+  postId: number;
+  id: number;
+  name: string;
+  email: string;
+  body: string;
+}
+
 (function () {
-  const example = document.getElementById("example");
-  const cw1 = document.getElementById("cw1");
-  const cw2 = document.getElementById("cw2");
-  const cw3 = document.getElementById("cw3");
-  const cw4 = document.getElementById("cw4");
-  const cw4_1 = document.getElementById("cw4_1");
-  const cw4_2 = document.getElementById("cw4_2");
-  const cw4_3 = document.getElementById("cw4_3");
-  const filterInput = document.getElementById("filter-input");
-  const filterButton = document.getElementById("filter-button");
-  const cw6 = document.getElementById("cw6");
-  const answer = document.getElementById("answer");
+  const example = document.getElementById("example") as HTMLButtonElement;
+  const cw1 = document.getElementById("cw1") as HTMLButtonElement;
+  const cw2 = document.getElementById("cw2") as HTMLButtonElement;
+  const cw3 = document.getElementById("cw3") as HTMLButtonElement;
+  const cw4 = document.getElementById("cw4") as HTMLButtonElement;
+  const cw4_1 = document.getElementById("cw4_1") as HTMLButtonElement;
+  const cw4_2 = document.getElementById("cw4_2") as HTMLButtonElement;
+  const cw4_3 = document.getElementById("cw4_3") as HTMLButtonElement;
+  const filterInput = document.getElementById(
+    "filter-input",
+  ) as HTMLInputElement;
+  const filterButton = document.getElementById(
+    "filter-button",
+  ) as HTMLButtonElement;
+  const cw6 = document.getElementById("cw6") as HTMLButtonElement;
+  const answer = document.getElementById("answer") as HTMLDivElement;
 
   example.addEventListener("click", function () {
     fetch("https://jsonplaceholder.typicode.com/posts")
       .then((response) => response.json())
-      .then((array) => {
+      .then((array: Post[]) => {
         console.log(array);
         answer.innerHTML = JSON.stringify(array);
       });
   });
 
-  function showLoadingPopup(title) {
+  function showLoadingPopup(title: string): void {
     const popup = document.createElement("div");
     popup.classList.add("loading-popup");
     popup.textContent = title;
     document.body.appendChild(popup);
   }
 
-  function hideLoadingPopup() {
+  function hideLoadingPopup(): void {
     const popup = document.querySelector(".loading-popup");
     if (popup) document.body.removeChild(popup);
   }
 
-  function showPaginatedPosts() {
+  function showPaginatedPosts(): void {
     showLoadingPopup("Loading...");
     setTimeout(
       () =>
@@ -41,7 +65,7 @@
           `https://jsonplaceholder.typicode.com/posts?_start=${offset}&_limit=${limit + 1}`, // pobieram o 1 więcej, żeby wiedzieć, czy będzie jeszcze następna strona, jeśli nie, to dezaktywuję przycisk "Następna strona"
         )
           .then((response) => response.json())
-          .then((array) => {
+          .then((array: Post[]) => {
             console.log(array.length);
             const list = array
               .slice(0, limit)
@@ -56,11 +80,15 @@
               <button id="next" ${array.length > limit ? "" : "disabled"}>Następna strona</button>
             </div>`;
 
-            document.getElementById("prev").addEventListener("click", () => {
+            (
+              document.getElementById("prev") as HTMLButtonElement
+            ).addEventListener("click", () => {
               offset = offset >= limit ? offset - limit : 0;
               showPaginatedPosts();
             });
-            document.getElementById("next").addEventListener("click", () => {
+            (
+              document.getElementById("next") as HTMLButtonElement
+            ).addEventListener("click", () => {
               offset += limit;
               showPaginatedPosts();
             });
@@ -85,7 +113,7 @@
       () =>
         fetch("https://jsonplaceholder.typicode.com/posts/1")
           .then((response) => response.json())
-          .then((post) => {
+          .then((post: Post) => {
             console.log(post);
             answer.innerHTML = `<div class="post"><h3>${post.title}</h3><p>${post.body}</p></div>`;
             hideLoadingPopup();
@@ -110,7 +138,7 @@
           }),
         })
           .then((response) => response.json())
-          .then((data) => {
+          .then((data: Post) => {
             console.log(data);
             answer.innerHTML = `<p>Dodano nowy post o ID = ${data.id}</p><div class="post"><h3>${data.title}</h3><p>${data.body}</p></div>`;
             hideLoadingPopup();
@@ -125,7 +153,7 @@
       () =>
         fetch("https://my-json-server.typicode.com/micang7/json/posts")
           .then((response) => response.json())
-          .then((array) => {
+          .then((array: MojPost[]) => {
             console.log(array);
             console.log(array[0].title);
             const list = array
@@ -154,7 +182,7 @@
           }),
         })
           .then((response) => response.json())
-          .then((data) => {
+          .then((data: Post) => {
             console.log(data);
             answer.innerHTML = `<p>Zaktualizowano post ID=1: Nowy tytuł: ${data.title}</p>`;
             hideLoadingPopup();
@@ -177,7 +205,7 @@
           }),
         })
           .then((response) => response.json())
-          .then((data) => {
+          .then((data: Post) => {
             console.log(data);
             answer.innerHTML = JSON.stringify(data);
             hideLoadingPopup();
@@ -197,7 +225,7 @@
             answer.innerHTML = `Post ID=1 usunięty (status: ${response.status}).`;
             return response.json();
           })
-          .then((data) => {
+          .then((data: any) => {
             console.log(data);
             hideLoadingPopup();
           }),
@@ -213,7 +241,7 @@
           `https://jsonplaceholder.typicode.com/posts?userId=${filterInput.value}`,
         )
           .then((response) => response.json())
-          .then((array) => {
+          .then((array: Post[]) => {
             if (array.length === 0) {
               answer.innerHTML = `<p>Brak wyników filtrowania</p>`;
             } else {
@@ -237,7 +265,7 @@
       () =>
         fetch(`https://jsonplaceholder.typicode.com/posts/1/comments`)
           .then((response) => response.json())
-          .then((array) => {
+          .then((array: Comment[]) => {
             const list = array
               .map(
                 (comment) =>
