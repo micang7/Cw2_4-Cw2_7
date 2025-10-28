@@ -3,6 +3,11 @@ html {
   width: 100%;
 }
 
+.menu {
+  display: flex;
+  gap: 10px;
+}
+
 .post {
   background-color: #a0c9da;
   color: white;

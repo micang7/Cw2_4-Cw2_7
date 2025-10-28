@@ -7,6 +7,8 @@
   const cw4_1 = document.getElementById("cw4_1");
   const cw4_2 = document.getElementById("cw4_2");
   const cw4_3 = document.getElementById("cw4_3");
+  const filterInput = document.getElementById("filter-input");
+  const filterButton = document.getElementById("filter-button");
   const answer = document.getElementById("answer");
 
   example.addEventListener("click", function () {
@@ -172,6 +174,32 @@
           })
           .then((data) => {
             console.log(data);
+            hideLoadingPopup();
+          }),
+      1000,
+    );
+  });
+
+  filterButton.addEventListener("click", function () {
+    showLoadingPopup("Loading...");
+    setTimeout(
+      () =>
+        fetch(
+          `https://jsonplaceholder.typicode.com/posts?userId=${filterInput.value}`,
+        )
+          .then((response) => response.json())
+          .then((array) => {
+            if (array.length === 0) {
+              answer.innerHTML = `<p>Brak wyników filtrowania</p>`;
+            } else {
+              const list = array
+                .map(
+                  (post) =>
+                    `<li class="post"><h3>${post.title}</h3><p>${post.body}</p></li>`,
+                )
+                .join("");
+              answer.innerHTML = `<ul>${list}</ul>`;
+            }
             hideLoadingPopup();
           }),
       1000,

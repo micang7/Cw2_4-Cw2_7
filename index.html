@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div>
+    <div class="menu">
       <button id="example">example</button>
       <button id="cw1">cw1</button>
       <button id="cw2">cw2</button>
@@ -16,6 +16,11 @@
       <button id="cw4_1">Aktualizuj post ID=1</button>
       <button id="cw4_2">Zmień tytuł posta ID=1</button>
       <button id="cw4_3">Usuń post ID=1</button>
+      <div>
+        <label for="filter-input">UserId:</label>
+        <input type="number" id="filter-input" />
+        <button id="filter-button">Filtruj po userId</button>
+      </div>
     </div>
     <div id="answer"></div>
     <script src="script.js"></script>
