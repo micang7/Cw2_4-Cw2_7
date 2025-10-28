@@ -33,26 +33,50 @@
     if (popup) document.body.removeChild(popup);
   }
 
-  cw1.addEventListener("click", function () {
+  function showPaginatedPosts() {
     showLoadingPopup("Loading...");
     setTimeout(
       () =>
-        fetch("https://jsonplaceholder.typicode.com/posts")
+        fetch(
+          `https://jsonplaceholder.typicode.com/posts?_start=${offset}&_limit=${limit + 1}`, // pobieram o 1 więcej, żeby wiedzieć, czy będzie jeszcze następna strona, jeśli nie, to dezaktywuję przycisk "Następna strona"
+        )
           .then((response) => response.json())
           .then((array) => {
-            console.log(array);
-            console.log(array[0].title);
+            console.log(array.length);
             const list = array
+              .slice(0, limit)
               .map(
                 (post) =>
                   `<li class="post"><h3>${post.title}</h3><p>${post.body}</p></li>`,
               )
               .join("");
-            answer.innerHTML = `<ul>${list}</ul>`;
+            answer.innerHTML = `<ul>${list}</ul>
+            <div>
+              <button id="prev" ${offset ? "" : "disabled"}>Poprzednia strona</button>
+              <button id="next" ${array.length > limit ? "" : "disabled"}>Następna strona</button>
+            </div>`;
+
+            document.getElementById("prev").addEventListener("click", () => {
+              offset = offset >= limit ? offset - limit : 0;
+              showPaginatedPosts();
+            });
+            document.getElementById("next").addEventListener("click", () => {
+              offset += limit;
+              showPaginatedPosts();
+            });
+
             hideLoadingPopup();
           }),
       1000,
     );
+  }
+
+  const limit = 10;
+  let offset = 0;
+
+  cw1.addEventListener("click", function () {
+    offset = 0;
+    showPaginatedPosts();
   });
 
   cw2.addEventListener("click", function () {
