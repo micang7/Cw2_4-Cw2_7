@@ -6,10 +6,22 @@ html {
 .menu {
   display: flex;
   gap: 10px;
+  max-width: 90%;
+  flex-wrap: wrap;
 }
 
 .post {
   background-color: #a0c9da;
+  color: white;
+  text-align: justify;
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px 0 rgb(0, 0, 0, 0.5);
+  margin: 20px 0;
+  padding: 5px 20px;
+}
+
+.comment {
+  background-color: #9bc59b;
   color: white;
   text-align: justify;
   border-radius: 10px;

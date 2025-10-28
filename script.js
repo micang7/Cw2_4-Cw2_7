@@ -9,6 +9,7 @@
   const cw4_3 = document.getElementById("cw4_3");
   const filterInput = document.getElementById("filter-input");
   const filterButton = document.getElementById("filter-button");
+  const cw6 = document.getElementById("cw6");
   const answer = document.getElementById("answer");
 
   example.addEventListener("click", function () {
@@ -200,6 +201,26 @@
                 .join("");
               answer.innerHTML = `<ul>${list}</ul>`;
             }
+            hideLoadingPopup();
+          }),
+      1000,
+    );
+  });
+
+  cw6.addEventListener("click", function () {
+    showLoadingPopup("Loading...");
+    setTimeout(
+      () =>
+        fetch(`https://jsonplaceholder.typicode.com/posts/1/comments`)
+          .then((response) => response.json())
+          .then((array) => {
+            const list = array
+              .map(
+                (comment) =>
+                  `<li class="comment"><h3>${comment.name}</h3><p>${comment.body}</p></li>`,
+              )
+              .join("");
+            answer.innerHTML = `<ul>${list}</ul>`;
             hideLoadingPopup();
           }),
       1000,
