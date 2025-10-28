@@ -110,4 +110,29 @@
       1000,
     );
   });
+
+  cw4_1.addEventListener("click", function () {
+    showLoadingPopup("Processing...");
+    setTimeout(
+      () =>
+        fetch("https://jsonplaceholder.typicode.com/posts/1", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: "Metoda put",
+            body: "Metoda put pozwala modyfikować obiekty",
+            userId: 1,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            answer.innerHTML = `<p>Zaktualizowano post ID=1: Nowy tytuł: ${data.title}</p>`;
+            hideLoadingPopup();
+          }),
+      1000,
+    );
+  });
 })();
