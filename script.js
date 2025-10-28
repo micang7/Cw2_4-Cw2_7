@@ -4,6 +4,9 @@
   const cw2 = document.getElementById("cw2");
   const cw3 = document.getElementById("cw3");
   const cw4 = document.getElementById("cw4");
+  const cw4_1 = document.getElementById("cw4_1");
+  const cw4_2 = document.getElementById("cw4_2");
+  const cw4_3 = document.getElementById("cw4_3");
   const answer = document.getElementById("answer");
 
   example.addEventListener("click", function () {
