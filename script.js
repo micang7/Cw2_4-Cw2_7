@@ -135,4 +135,46 @@
       1000,
     );
   });
+
+  cw4_2.addEventListener("click", function () {
+    showLoadingPopup("Processing...");
+    setTimeout(
+      () =>
+        fetch("https://jsonplaceholder.typicode.com/posts/1", {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: "Nowy tytuł",
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            answer.innerHTML = JSON.stringify(data);
+            hideLoadingPopup();
+          }),
+      1000,
+    );
+  });
+
+  cw4_3.addEventListener("click", function () {
+    showLoadingPopup("Processing...");
+    setTimeout(
+      () =>
+        fetch("https://jsonplaceholder.typicode.com/posts/1", {
+          method: "DELETE",
+        })
+          .then((response) => {
+            answer.innerHTML = `Post ID=1 usunięty (status: ${response.status}).`;
+            return response.json();
+          })
+          .then((data) => {
+            console.log(data);
+            hideLoadingPopup();
+          }),
+      1000,
+    );
+  });
 })();
